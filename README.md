@@ -208,7 +208,91 @@
                                   +-----------------------------+
 
 ```
-Este diseño de base de datos permitirá a Don Próspero Buenavida gestionar eficientemente el inventario, la cartera de clientes, proveedores, y empleados, así como obtener informes precisos sobre el rendimiento de la empresa.
+```
+-- Crear la base de datos
+CREATE DATABASE IF NOT EXISTS ERE_LTDA;
+USE ERE_LTDA;
+
+-- Crear la tabla de Proveedores
+CREATE TABLE Proveedor (
+    CodigoProveedor INT AUTO_INCREMENT PRIMARY KEY,
+    NombreProveedor VARCHAR(255) NOT NULL,
+    DireccionProveedor VARCHAR(255),
+    TelefonoProveedor VARCHAR(20),
+    EmailProveedor VARCHAR(100)
+);
+
+-- Crear la tabla de Productos
+CREATE TABLE Producto (
+    CodigoProducto INT AUTO_INCREMENT PRIMARY KEY,
+    NombreProducto VARCHAR(255) NOT NULL,
+    TipoMaterial ENUM('Construcción', 'Eléctrico') NOT NULL,
+    CodigoProveedor INT,
+    Marca VARCHAR(100),
+    Precio DECIMAL(10, 2),
+    FOREIGN KEY (CodigoProveedor) REFERENCES Proveedor(CodigoProveedor)
+);
+
+-- Crear la tabla de Clientes
+CREATE TABLE Cliente (
+    CodigoCliente INT AUTO_INCREMENT PRIMARY KEY,
+    NombreCliente VARCHAR(255) NOT NULL,
+    DireccionCliente VARCHAR(255),
+    TelefonoCliente VARCHAR(20),
+    EmailCliente VARCHAR(100)
+);
+
+-- Crear la tabla de Empleados
+CREATE TABLE Empleado (
+    CodigoEmpleado INT AUTO_INCREMENT PRIMARY KEY,
+    NombreEmpleado VARCHAR(255) NOT NULL,
+    Grupo ENUM('Vendedor', 'Administrativo') NOT NULL,
+    Salario DECIMAL(10, 2)
+);
+
+-- Crear la tabla de Facturas
+CREATE TABLE Factura (
+    NumeroFactura INT AUTO_INCREMENT PRIMARY KEY,
+    CodigoCliente INT,
+    CodigoVendedor INT,
+    Fecha DATE NOT NULL,
+    Total DECIMAL(10, 2),
+    FOREIGN KEY (CodigoCliente) REFERENCES Cliente(CodigoCliente),
+    FOREIGN KEY (CodigoVendedor) REFERENCES Empleado(CodigoEmpleado)
+);
+
+-- Crear la tabla de Detalles de Factura
+CREATE TABLE DetalleFactura (
+    IDDetalleFactura INT AUTO_INCREMENT PRIMARY KEY,
+    NumeroFactura INT,
+    CodigoProducto INT,
+    Cantidad INT NOT NULL,
+    PrecioUnitario DECIMAL(10, 2),
+    FOREIGN KEY (NumeroFactura) REFERENCES Factura(NumeroFactura),
+    FOREIGN KEY (CodigoProducto) REFERENCES Producto(CodigoProducto)
+);
+
+-- Crear la tabla de Compras de Proveedores
+CREATE TABLE Compras_Proveedores (
+    NumeroCompra INT AUTO_INCREMENT PRIMARY KEY,
+    CodigoProveedor INT,
+    Fecha DATE NOT NULL,
+    Total DECIMAL(10, 2),
+    FOREIGN KEY (CodigoProveedor) REFERENCES Proveedor(CodigoProveedor)
+);
+
+-- Crear la tabla de Detalles de Compras de Proveedores
+CREATE TABLE Detalles_Compras_Proveedores (
+    IDDetalleCompra INT AUTO_INCREMENT PRIMARY KEY,
+    NumeroCompra INT,
+    CodigoProducto INT,
+    Cantidad INT NOT NULL,
+    PrecioUnitario DECIMAL(10, 2),
+    FOREIGN KEY (NumeroCompra) REFERENCES Compras_Proveedores(NumeroCompra),
+    FOREIGN KEY (CodigoProducto) REFERENCES Producto(CodigoProducto)
+);
+```
+* Este diseño de base de datos permitirá a Don Próspero Buenavida gestionar eficientemente el inventario, la cartera de clientes, proveedores, y empleados, así como obtener informes precisos sobre el rendimiento de la empresa.
 
 ### Importancia del Gestor de Bases de Datos Relacionales en una Empresa
 
