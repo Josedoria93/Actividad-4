@@ -171,21 +171,42 @@
 
 ### 6. Diagrama Entidad-Relación (E-R)
 
-Aquí tienes una representación textual del diagrama E-R:
+```
++----------------+       +------------------+       +------------------+
+|    Proveedor   |       |    Producto      |       |     Cliente      |
++----------------+       +------------------+       +------------------+
+| CodigoProveedor| <-----| CodigoProveedor  |       | CodigoCliente    |
+| NombreProveedor|       | CodigoProducto   |       | Nombre           |
+| Telefono       |       | Nombre           |       | Apellido         |
+| Direccion      |       | TipoMaterial     |       | Direccion        |
+| Email          |       | Marca            |       | Telefono         |
++----------------+       | PrecioUnitario   |       | Email            |
+                        | Stock            |       +------------------+
+                        +------------------+                  
+                             |                              
+                             |                              
+                             |                              
+                             |                              
++----------------+       +------------------+       +------------------+
+|     Factura    |       |   DetalleFactura |       |    Empleado      |
++----------------+       +------------------+       +------------------+
+| NumeroFactura  |       | NumeroFactura    |       | CodigoEmpleado   |
+| CodigoCliente  |<----- | CodigoProducto   |       | Nombre           |
+| CodigoVendedor |       | Cantidad         |       | Apellido         |
+| FechaFactura   |       | PrecioUnitario   |       | Grupo            |
+| TipoPago       |       | Subtotal         |       | Salario          |
++----------------+       +------------------+       +------------------+
+
++--------------------------+       +-----------------------------+
+|  Compras_Proveedores     |       | Detalles_Compras_Proveedores |
++--------------------------+       +-----------------------------+
+| NumeroCompra             |       | NumeroCompra                |
+| CodigoProveedor          |<----- | CodigoProducto             |
+| FechaCompra              |       | Cantidad                    |
+| TotalCompra              |       | PrecioUnitario              |
++--------------------------+       | Subtotal                    |
+                                  +-----------------------------+
 
 ```
-[Producto] ----< (CódigoProveedor) >---- [Proveedor]
-    |
-    | (CódigoProducto)
-    v
-[DetalleFactura] ----< (NúmeroFactura) >---- [Factura] ----< (CódigoCliente) >---- [Cliente]
-                     |
-                     | (CódigoVendedor)
-                     v
-                 [Empleado]
-```
-
-
-
 Este diseño de base de datos permitirá a Don Próspero Buenavida gestionar eficientemente el inventario, la cartera de clientes, proveedores, y empleados, así como obtener informes precisos sobre el rendimiento de la empresa.
 
